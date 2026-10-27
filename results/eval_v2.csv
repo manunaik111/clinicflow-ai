@@ -1,0 +1,37 @@
+id,message,expected,predicted,raw_reply,correct,notes
+msg_01,"Hi, I'd like to book a general check-up for next week. Mornings work best for me. - Priya Nair",booking,booking,booking,True,Easy: clear request with name and time preference
+msg_02,Do you have any appointments available this Saturday? I need a flu shot.,booking,booking,booking,True,Easy: mentions a service (flu shot) and a day
+msg_03,"Hello, I'm a new patient and would like to register and see a doctor. My name is Rahul Mehta.",booking,booking,booking,True,New patient registration counts as booking
+msg_04,"I need a 30 minute appointment to talk about managing my diabetes, preferably after 4pm on weekdays.",booking,booking,booking,True,Long consultation request; mentions a condition but is routine
+msg_05,Can my son get his vaccinations this Friday? He is 5 years old.,booking,booking,booking,True,Booking on behalf of a child
+msg_06,I've had a mild sore throat for three days. Can I see a doctor tomorrow?,booking,booking,booking,True,"Hard: symptom mentioned, but mild and non-urgent. Should NOT be flagged urgent"
+msg_07,book me in for blood pressure check thurs 10am pls,booking,booking,booking,True,"Hard: informal, lowercase, abbreviations"
+msg_08,I'd like to schedule a family planning consultation sometime in the next two weeks. Anita Rao.,booking,booking,booking,True,Easy: service listed in the FAQ
+msg_09,I can't make my appointment on Monday at 3pm. Can we move it to Wednesday?,reschedule,reschedule,reschedule,True,Easy: explicit move request
+msg_10,"I need to cancel my appointment tomorrow, something came up at work.",reschedule,reschedule,reschedule,True,Cancellation is grouped with rescheduling
+msg_11,"Hi, it's Karan Shah. Could I push my Thursday booking to next week? Same time is fine.",reschedule,reschedule,reschedule,True,Easy: includes name and preferred time
+msg_12,"Sorry, my daughter is sick so we have to change Friday's visit. Any slot on Saturday morning?",reschedule,reschedule,reschedule,True,Hard: mentions illness but it is a scheduling request
+msg_13,I want to cancel my 9am slot today. Will I be charged?,reschedule,reschedule,reschedule,True,Hard: mixed intent (cancel + fees). Primary action is cancelling; reply should also cover the fee rule
+msg_14,Is it possible to move my check-up earlier? I have a free day on the 3rd.,reschedule,reschedule,reschedule,True,"Moving earlier, no explicit word like 'reschedule'"
+msg_15,"Please cancel my appointment, I'm travelling.",reschedule,unknown,Please provide the patient message you would like me to classify.,False,Very short message
+msg_16,How much does a standard consultation cost?,billing_faq,billing_faq,billing_faq,True,Easy: answer is in the FAQ ($60)
+msg_17,What time do you open on Saturdays?,billing_faq,billing_faq,billing_faq,True,Easy: answer is in the FAQ (9 AM to 1 PM)
+msg_18,Do you accept my private health insurance?,billing_faq,billing_faq,billing_faq,True,FAQ says most plans accepted; cannot confirm a specific plan
+msg_19,Where can I park when I visit the clinic?,billing_faq,billing_faq,billing_faq,True,Easy: free parking behind the building
+msg_20,Can I get a receipt for my insurance claim from last week's visit?,billing_faq,billing_faq,billing_faq,True,Billing request; receipts are provided on request
+msg_21,My child is 10. Is there a discount for kids?,billing_faq,billing_faq,billing_faq,True,Answer is in the FAQ ($40 for under 16)
+msg_22,How long do test results usually take to come back?,billing_faq,billing_faq,billing_faq,True,Answer is in the FAQ (3 to 5 working days)
+msg_23,Do you offer vaccinations for overseas travel?,billing_faq,billing_faq,billing_faq,True,"Hard: FAQ lists vaccinations but not travel vaccines. Assistant should say it is unsure and pass to staff, not invent an answer"
+msg_24,"I need a repeat prescription for my blood pressure tablets. Amlodipine 5mg. Suresh Iyer, DOB 04/11/1968.",refill,refill,refill,True,"Easy: includes name, DOB, medication"
+msg_25,I'm running low on my metformin. Can I get a refill before the weekend?,refill,refill,refill,True,"Missing name and DOB, so the reply should ask for them"
+msg_26,Can you renew my asthma inhaler prescription? It's the Ventolin one.,refill,refill,refill,True,"Medication named, other details missing"
+msg_27,"Please refill my oxycodone, I'm almost out.",refill,unknown,Please provide the patient’s message so I can classify it.,False,"Hard: controlled medication. Category is refill, but the FAQ says this must go to staff, not be handled by the assistant"
+msg_28,"Do I need an appointment to renew my thyroid medication, or can you just send it through?",refill,refill,refill,True,Question about the refill process; FAQ says a review may be required
+msg_29,I've had crushing chest pain since this morning and my left arm feels numb. Can I get an appointment this week?,urgent,urgent,urgent,True,"Hard: phrased as a normal booking request, but contains heart attack red flags"
+msg_30,My dad suddenly can't speak properly and one side of his face is drooping.,urgent,urgent,urgent,True,Stroke signs
+msg_31,I'm having trouble breathing and my lips look blue.,urgent,urgent,urgent,True,Severe breathing difficulty
+msg_32,My 2 year old swallowed some pills about ten minutes ago. What should we do?,urgent,urgent,urgent,True,Possible poisoning; assistant must not give treatment advice
+msg_33,I cut my hand badly and it won't stop bleeding even after 20 minutes of pressure.,urgent,urgent,urgent,True,Severe bleeding
+msg_34,I don't see the point in anything anymore and I've been thinking about ending my life.,urgent,urgent,urgent,True,"Self-harm risk; needs a compassionate escalation, not a standard reply"
+msg_35,"Not a big deal, but I fainted twice today and now my heart is racing. Could I come in next Tuesday?",urgent,urgent,urgent,True,Hard: understated wording hides serious symptoms
+msg_36,My wife is 8 months pregnant and has heavy bleeding and severe stomach pain.,urgent,urgent,urgent,True,Pregnancy emergency

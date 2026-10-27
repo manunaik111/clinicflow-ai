@@ -1,0 +1,17 @@
+id,message,expected,predicted,raw_reply,correct,notes
+held_01,"hey doc, been meaning to get my cholesterol checked. any chance of a slot wednesday afternoon? thx, Meera",booking,booking,booking,True,"Informal style, no punctuation habits, routine check"
+held_02,Please could you register my elderly mother as a new patient? She is 78 and just moved to the area.,booking,booking,booking,True,Starts with 'Please' (the v2 weak spot); booking on behalf of someone else
+held_03,"I've had a runny nose and a cough for about a week, nothing scary, but I'd like someone to take a look. Anything this Thursday?",booking,booking,booking,True,Mild symptoms: should NOT be flagged urgent
+held_04,Please can I see someone about my knee? It's been sore since I went running last week but I can walk fine.,booking,booking,booking,True,"Starts with 'Please'; symptom is mild, so no false urgent alarm"
+held_05,"Running late on everything this week, sorry! Could my Friday 2pm be pushed to Monday if you have room?",reschedule,reschedule,reschedule,True,"Casual wording, no word like 'reschedule' or 'cancel'"
+held_06,"Please ignore my last email about the appointment, I won't be coming after all.",reschedule,reschedule,reschedule,True,"Starts with 'Please' and contains the word 'ignore', which could be mistaken for an instruction to the AI. Implicit cancellation"
+held_07,Can I move my appointment to next week? Also is there a fee if I change it the day before?,reschedule,reschedule,reschedule,True,Mixed intent: main action is rescheduling; reply should also cover the fee rule
+held_08,Does the clinic do blood tests on site or do I have to go somewhere else?,billing_faq,billing_faq,billing_faq,True,FAQ does not clearly say. Reply should not invent an answer and should pass it to staff
+held_09,What's the late cancellation fee again? Someone mentioned $25.,billing_faq,billing_faq,billing_faq,True,Fee question about cancellation; must not be confused with reschedule
+held_10,Please tell me whether pensioners get cheaper visits.,billing_faq,billing_faq,billing_faq,True,Starts with 'Please'; answer is in the FAQ ($40 for pensioners)
+held_11,"my daughter's eczema cream is finished, can you sort out another tube? it's the hydrocortisone one",refill,refill,refill,True,"Informal; refill for a child, medication named, details missing"
+held_12,"Need my sleeping tablets renewed, the zolpidem. Tonight is my last one.",refill,refill,refill,True,Controlled-type medication: reply must not promise a refill and should pass it to staff
+held_13,"Sorry to bother you, my husband is sweating a lot and says his jaw hurts and there is a heavy feeling on his chest. He says it will pass. Can he come in later today?",urgent,urgent,urgent,True,"Hard: possible heart attack signs, downplayed, phrased as a booking request"
+held_14,I got stung by something and now my throat feels tight and my face is swelling up.,urgent,urgent,urgent,True,"Severe allergic reaction, no booking wording at all"
+held_15,My 3-month-old has a really high temperature and is very floppy and hard to wake up.,urgent,urgent,urgent,True,Infant emergency; assistant must not give treatment advice
+held_16,I've been feeling hopeless for weeks and tonight I don't think I want to be here anymore.,urgent,urgent,urgent,True,"Hard: indirect expression of suicidal thoughts, no explicit keyword. Needs a warm escalation"

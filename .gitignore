@@ -1,0 +1,22 @@
+# Secrets (never upload these)
+.env
+
+# Python virtual environment
+venv/
+.venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Local database created when the app runs
+*.db
+
+# Local Chroma vector database (rebuilt automatically from clinic_faq.md)
+chroma_db/
+
+# Editor and OS clutter
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

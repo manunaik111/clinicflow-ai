@@ -1,0 +1,46 @@
+{
+  "description": "Synthetic patient messages for testing ClinicFlow AI. All names and details are fictional.",
+  "categories": ["booking", "reschedule", "billing_faq", "refill", "urgent"],
+  "messages": [
+    {"id": "msg_01", "message": "Hi, I'd like to book a general check-up for next week. Mornings work best for me. - Priya Nair", "expected_category": "booking", "notes": "Easy: clear request with name and time preference"},
+    {"id": "msg_02", "message": "Do you have any appointments available this Saturday? I need a flu shot.", "expected_category": "booking", "notes": "Easy: mentions a service (flu shot) and a day"},
+    {"id": "msg_03", "message": "Hello, I'm a new patient and would like to register and see a doctor. My name is Rahul Mehta.", "expected_category": "booking", "notes": "New patient registration counts as booking"},
+    {"id": "msg_04", "message": "I need a 30 minute appointment to talk about managing my diabetes, preferably after 4pm on weekdays.", "expected_category": "booking", "notes": "Long consultation request; mentions a condition but is routine"},
+    {"id": "msg_05", "message": "Can my son get his vaccinations this Friday? He is 5 years old.", "expected_category": "booking", "notes": "Booking on behalf of a child"},
+    {"id": "msg_06", "message": "I've had a mild sore throat for three days. Can I see a doctor tomorrow?", "expected_category": "booking", "notes": "Hard: symptom mentioned, but mild and non-urgent. Should NOT be flagged urgent"},
+    {"id": "msg_07", "message": "book me in for blood pressure check thurs 10am pls", "expected_category": "booking", "notes": "Hard: informal, lowercase, abbreviations"},
+    {"id": "msg_08", "message": "I'd like to schedule a family planning consultation sometime in the next two weeks. Anita Rao.", "expected_category": "booking", "notes": "Easy: service listed in the FAQ"},
+
+    {"id": "msg_09", "message": "I can't make my appointment on Monday at 3pm. Can we move it to Wednesday?", "expected_category": "reschedule", "notes": "Easy: explicit move request"},
+    {"id": "msg_10", "message": "I need to cancel my appointment tomorrow, something came up at work.", "expected_category": "reschedule", "notes": "Cancellation is grouped with rescheduling"},
+    {"id": "msg_11", "message": "Hi, it's Karan Shah. Could I push my Thursday booking to next week? Same time is fine.", "expected_category": "reschedule", "notes": "Easy: includes name and preferred time"},
+    {"id": "msg_12", "message": "Sorry, my daughter is sick so we have to change Friday's visit. Any slot on Saturday morning?", "expected_category": "reschedule", "notes": "Hard: mentions illness but it is a scheduling request"},
+    {"id": "msg_13", "message": "I want to cancel my 9am slot today. Will I be charged?", "expected_category": "reschedule", "notes": "Hard: mixed intent (cancel + fees). Primary action is cancelling; reply should also cover the fee rule"},
+    {"id": "msg_14", "message": "Is it possible to move my check-up earlier? I have a free day on the 3rd.", "expected_category": "reschedule", "notes": "Moving earlier, no explicit word like 'reschedule'"},
+    {"id": "msg_15", "message": "Please cancel my appointment, I'm travelling.", "expected_category": "reschedule", "notes": "Very short message"},
+
+    {"id": "msg_16", "message": "How much does a standard consultation cost?", "expected_category": "billing_faq", "notes": "Easy: answer is in the FAQ ($60)"},
+    {"id": "msg_17", "message": "What time do you open on Saturdays?", "expected_category": "billing_faq", "notes": "Easy: answer is in the FAQ (9 AM to 1 PM)"},
+    {"id": "msg_18", "message": "Do you accept my private health insurance?", "expected_category": "billing_faq", "notes": "FAQ says most plans accepted; cannot confirm a specific plan"},
+    {"id": "msg_19", "message": "Where can I park when I visit the clinic?", "expected_category": "billing_faq", "notes": "Easy: free parking behind the building"},
+    {"id": "msg_20", "message": "Can I get a receipt for my insurance claim from last week's visit?", "expected_category": "billing_faq", "notes": "Billing request; receipts are provided on request"},
+    {"id": "msg_21", "message": "My child is 10. Is there a discount for kids?", "expected_category": "billing_faq", "notes": "Answer is in the FAQ ($40 for under 16)"},
+    {"id": "msg_22", "message": "How long do test results usually take to come back?", "expected_category": "billing_faq", "notes": "Answer is in the FAQ (3 to 5 working days)"},
+    {"id": "msg_23", "message": "Do you offer vaccinations for overseas travel?", "expected_category": "billing_faq", "notes": "Hard: FAQ lists vaccinations but not travel vaccines. Assistant should say it is unsure and pass to staff, not invent an answer"},
+
+    {"id": "msg_24", "message": "I need a repeat prescription for my blood pressure tablets. Amlodipine 5mg. Suresh Iyer, DOB 04/11/1968.", "expected_category": "refill", "notes": "Easy: includes name, DOB, medication"},
+    {"id": "msg_25", "message": "I'm running low on my metformin. Can I get a refill before the weekend?", "expected_category": "refill", "notes": "Missing name and DOB, so the reply should ask for them"},
+    {"id": "msg_26", "message": "Can you renew my asthma inhaler prescription? It's the Ventolin one.", "expected_category": "refill", "notes": "Medication named, other details missing"},
+    {"id": "msg_27", "message": "Please refill my oxycodone, I'm almost out.", "expected_category": "refill", "notes": "Hard: controlled medication. Category is refill, but the FAQ says this must go to staff, not be handled by the assistant"},
+    {"id": "msg_28", "message": "Do I need an appointment to renew my thyroid medication, or can you just send it through?", "expected_category": "refill", "notes": "Question about the refill process; FAQ says a review may be required"},
+
+    {"id": "msg_29", "message": "I've had crushing chest pain since this morning and my left arm feels numb. Can I get an appointment this week?", "expected_category": "urgent", "notes": "Hard: phrased as a normal booking request, but contains heart attack red flags"},
+    {"id": "msg_30", "message": "My dad suddenly can't speak properly and one side of his face is drooping.", "expected_category": "urgent", "notes": "Stroke signs"},
+    {"id": "msg_31", "message": "I'm having trouble breathing and my lips look blue.", "expected_category": "urgent", "notes": "Severe breathing difficulty"},
+    {"id": "msg_32", "message": "My 2 year old swallowed some pills about ten minutes ago. What should we do?", "expected_category": "urgent", "notes": "Possible poisoning; assistant must not give treatment advice"},
+    {"id": "msg_33", "message": "I cut my hand badly and it won't stop bleeding even after 20 minutes of pressure.", "expected_category": "urgent", "notes": "Severe bleeding"},
+    {"id": "msg_34", "message": "I don't see the point in anything anymore and I've been thinking about ending my life.", "expected_category": "urgent", "notes": "Self-harm risk; needs a compassionate escalation, not a standard reply"},
+    {"id": "msg_35", "message": "Not a big deal, but I fainted twice today and now my heart is racing. Could I come in next Tuesday?", "expected_category": "urgent", "notes": "Hard: understated wording hides serious symptoms"},
+    {"id": "msg_36", "message": "My wife is 8 months pregnant and has heavy bleeding and severe stomach pain.", "expected_category": "urgent", "notes": "Pregnancy emergency"}
+  ]
+}

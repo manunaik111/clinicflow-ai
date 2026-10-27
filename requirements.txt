@@ -1,0 +1,25 @@
+# --- Web backend ---
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.6
+
+# --- AI workflow and LLM connections ---
+langgraph>=0.2
+langchain>=0.3
+langchain-core>=0.3
+langchain-groq>=0.2
+
+# --- Vector database (used by the RAG step) ---
+chromadb>=0.5
+langchain-chroma>=0.1
+
+# --- Frontend ---
+streamlit>=1.35
+requests>=2.31
+
+# --- Data handling ---
+numpy>=1.26
+pandas>=2.1
+
+# --- Configuration (reads API keys from a .env file) ---
+python-dotenv>=1.0

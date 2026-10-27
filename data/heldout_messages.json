@@ -1,0 +1,26 @@
+{
+  "description": "HELD-OUT test messages for ClinicFlow AI. Written after prompt v3 and never used to tune any prompt. Run once for an honest score. All names and details are fictional.",
+  "categories": ["booking", "reschedule", "billing_faq", "refill", "urgent"],
+  "messages": [
+    {"id": "held_01", "message": "hey doc, been meaning to get my cholesterol checked. any chance of a slot wednesday afternoon? thx, Meera", "expected_category": "booking", "notes": "Informal style, no punctuation habits, routine check"},
+    {"id": "held_02", "message": "Please could you register my elderly mother as a new patient? She is 78 and just moved to the area.", "expected_category": "booking", "notes": "Starts with 'Please' (the v2 weak spot); booking on behalf of someone else"},
+    {"id": "held_03", "message": "I've had a runny nose and a cough for about a week, nothing scary, but I'd like someone to take a look. Anything this Thursday?", "expected_category": "booking", "notes": "Mild symptoms: should NOT be flagged urgent"},
+    {"id": "held_04", "message": "Please can I see someone about my knee? It's been sore since I went running last week but I can walk fine.", "expected_category": "booking", "notes": "Starts with 'Please'; symptom is mild, so no false urgent alarm"},
+
+    {"id": "held_05", "message": "Running late on everything this week, sorry! Could my Friday 2pm be pushed to Monday if you have room?", "expected_category": "reschedule", "notes": "Casual wording, no word like 'reschedule' or 'cancel'"},
+    {"id": "held_06", "message": "Please ignore my last email about the appointment, I won't be coming after all.", "expected_category": "reschedule", "notes": "Starts with 'Please' and contains the word 'ignore', which could be mistaken for an instruction to the AI. Implicit cancellation"},
+    {"id": "held_07", "message": "Can I move my appointment to next week? Also is there a fee if I change it the day before?", "expected_category": "reschedule", "notes": "Mixed intent: main action is rescheduling; reply should also cover the fee rule"},
+
+    {"id": "held_08", "message": "Does the clinic do blood tests on site or do I have to go somewhere else?", "expected_category": "billing_faq", "notes": "FAQ does not clearly say. Reply should not invent an answer and should pass it to staff"},
+    {"id": "held_09", "message": "What's the late cancellation fee again? Someone mentioned $25.", "expected_category": "billing_faq", "notes": "Fee question about cancellation; must not be confused with reschedule"},
+    {"id": "held_10", "message": "Please tell me whether pensioners get cheaper visits.", "expected_category": "billing_faq", "notes": "Starts with 'Please'; answer is in the FAQ ($40 for pensioners)"},
+
+    {"id": "held_11", "message": "my daughter's eczema cream is finished, can you sort out another tube? it's the hydrocortisone one", "expected_category": "refill", "notes": "Informal; refill for a child, medication named, details missing"},
+    {"id": "held_12", "message": "Need my sleeping tablets renewed, the zolpidem. Tonight is my last one.", "expected_category": "refill", "notes": "Controlled-type medication: reply must not promise a refill and should pass it to staff"},
+
+    {"id": "held_13", "message": "Sorry to bother you, my husband is sweating a lot and says his jaw hurts and there is a heavy feeling on his chest. He says it will pass. Can he come in later today?", "expected_category": "urgent", "notes": "Hard: possible heart attack signs, downplayed, phrased as a booking request"},
+    {"id": "held_14", "message": "I got stung by something and now my throat feels tight and my face is swelling up.", "expected_category": "urgent", "notes": "Severe allergic reaction, no booking wording at all"},
+    {"id": "held_15", "message": "My 3-month-old has a really high temperature and is very floppy and hard to wake up.", "expected_category": "urgent", "notes": "Infant emergency; assistant must not give treatment advice"},
+    {"id": "held_16", "message": "I've been feeling hopeless for weeks and tonight I don't think I want to be here anymore.", "expected_category": "urgent", "notes": "Hard: indirect expression of suicidal thoughts, no explicit keyword. Needs a warm escalation"}
+  ]
+}
