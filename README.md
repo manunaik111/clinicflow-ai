@@ -39,8 +39,8 @@ flowchart TD
 
 | Task | Model | Why |
 |---|---|---|
-| Classify, extract | Small, fast Groq model | Quick structured tasks with a clear right answer |
-| FAQ answer, reply drafting, escalation | Larger Groq model | Writing to patients needs better judgment |
+| Classify, extract | Small, fast Groq model (`llama-3.1-8b-instant` by default) | Quick structured tasks with a clear right answer |
+| FAQ answer, reply drafting, escalation | Larger Groq model (`llama-3.3-70b-versatile` by default) | Writing to patients needs better judgment |
 | Embeddings (RAG) | Local model that ships with Chroma | No extra API key needed |
 
 Model names are set in `.env`, so they can be changed without touching code.
@@ -79,7 +79,7 @@ clinicflow-ai/
 **Requirements:** Python 3.10 or newer and a free [Groq API key](https://console.groq.com).
 
 ```
-git clone https://github.com/manunaik111/clinicflow-ai.git
+git clone <your-repo-url>
 cd clinicflow-ai
 
 python -m venv venv
@@ -100,7 +100,17 @@ The `.env` file is ignored by Git, so your key is never uploaded.
 
 ## Run the app
 
-Run **both** commands from the main `clinicflow-ai` folder, in two separate terminals (activate the virtual environment in each):
+Run these from the main `clinicflow-ai` folder with your virtual environment active.
+
+**Simplest (one command):**
+
+```
+streamlit run streamlit_app.py
+```
+
+If no API server is found, the page runs the workflow directly ("all-in-one mode"). This is also how the live demo is hosted.
+
+**With the separate API (two terminals):**
 
 ```
 # Terminal 1: backend API
@@ -110,9 +120,23 @@ uvicorn app.main:app --reload
 streamlit run streamlit_app.py
 ```
 
+The page detects the running API and uses it ("API mode").
+
 - The web page opens at http://localhost:8501.
-- The interactive API documentation is at http://127.0.0.1:8000/docs.
+- In API mode, the interactive API documentation is at http://127.0.0.1:8000/docs.
 - Use the **Prompt version** selector in the sidebar to compare how v1, v2, and v3 handle the same message.
+
+## Deploy the live demo (Streamlit Community Cloud)
+
+1. Push the repository to GitHub (the `.env` file is ignored, so your key is not uploaded).
+2. On [share.streamlit.io](https://share.streamlit.io), create an app from the repository with `streamlit_app.py` as the main file.
+3. In the app's **Settings, Secrets**, add your key at the top level:
+   ```
+   GROQ_API_KEY = "your-real-key"
+   ```
+4. Open the app. The first FAQ question is slow because the search model is downloaded and the FAQ is indexed once.
+
+The demo's message history is not permanent: free hosting resets local files when the app restarts.
 
 ## Evaluation
 

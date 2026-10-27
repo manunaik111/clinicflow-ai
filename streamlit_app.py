@@ -5,13 +5,25 @@ Two tabs:
     1. Process a message: type (or load) a patient message and see what the AI does.
     2. Dashboard: summary numbers and the history of processed messages.
 
-The page talks to the FastAPI backend, so start the backend first.
-
-Terminal 1 (backend):   uvicorn app.main:app --reload
-Terminal 2 (this page): streamlit run streamlit_app.py
+Two ways to run (the page picks automatically):
+    - API mode: if the FastAPI backend is running, the page talks to it.
+        Terminal 1:  uvicorn app.main:app --reload
+        Terminal 2:  streamlit run streamlit_app.py
+    - All-in-one mode: if no backend is found (for example on Streamlit Community
+        Cloud), the page runs the same workflow directly. Only one command is needed:
+        streamlit run streamlit_app.py
 """
 
 import json
+import sys
+
+# Optional: some hosts ship an old SQLite that Chroma rejects. If the
+# pysqlite3-binary package is installed, use it. If not, nothing changes.
+try:
+    __import__("pysqlite3")
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+except ImportError:
+    pass
 
 import pandas as pd
 import requests
@@ -26,6 +38,21 @@ NO_SAMPLE = "(type my own message)"
 
 
 # ----------------------------------------------------------------------
+# Which mode are we in?
+# ----------------------------------------------------------------------
+@st.cache_data(ttl=30)
+def api_available() -> bool:
+    """True if the FastAPI backend answers at BACKEND_URL."""
+    try:
+        return requests.get(f"{BACKEND_URL}/health", timeout=2).status_code == 200
+    except requests.exceptions.RequestException:
+        return False
+
+
+USE_API = api_available()
+
+
+# ----------------------------------------------------------------------
 # Helpers
 # ----------------------------------------------------------------------
 @st.cache_data
@@ -35,8 +62,47 @@ def load_samples() -> dict:
     return {f"{m['id']}: {m['message'][:70]}": m["message"] for m in data["messages"]}
 
 
+def call_direct(method: str, path: str, **kwargs):
+    """All-in-one mode: run the workflow and database code directly. Returns (data, error)."""
+    from app.database import get_recent_requests, get_stats, log_request
+
+    try:
+        if path == "/health":
+            return {"status": "ok", "mode": "direct"}, None
+        if path == "/stats":
+            return get_stats(), None
+        if path == "/requests":
+            limit = (kwargs.get("params") or {}).get("limit", 50)
+            return get_recent_requests(limit), None
+        if path == "/process":
+            from app.graph import run_clinicflow
+
+            body = kwargs["json"]
+            version = body.get("prompt_version") or ACTIVE_VERSION
+            result = run_clinicflow(body["message"], version)
+            row_id = log_request(result, version)
+            return {
+                "id": row_id,
+                "prompt_version": version,
+                "category": result.get("category"),
+                "needs_human": bool(result.get("needs_human", False)),
+                "reply": result.get("reply"),
+                "staff_alert": result.get("staff_alert"),
+                "details": result.get("details", {}),
+                "retrieved_sections": result.get("retrieved_sections", []),
+            }, None
+    except RuntimeError as error:  # for example: the API key is missing
+        return None, str(error)
+    except Exception as error:
+        return None, f"The AI workflow failed: {error}"
+    return None, f"Unknown request: {method} {path}"
+
+
 def call_backend(method: str, path: str, **kwargs):
-    """Call the FastAPI backend. Returns (data, error_message)."""
+    """Talk to the app. Returns (data, error_message)."""
+    if not USE_API:
+        return call_direct(method, path, **kwargs)
+
     try:
         response = requests.request(method, f"{BACKEND_URL}{path}", timeout=120, **kwargs)
     except requests.exceptions.ConnectionError:
@@ -84,11 +150,14 @@ version = st.sidebar.selectbox(
 )
 st.sidebar.caption("Switch versions to compare how different prompts handle the same message.")
 
-health, health_error = call_backend("GET", "/health")
-if health_error:
-    st.sidebar.error("Backend: not reachable")
+if USE_API:
+    health, health_error = call_backend("GET", "/health")
+    if health_error:
+        st.sidebar.error("Backend: not reachable")
+    else:
+        st.sidebar.success("Backend: running (API mode)")
 else:
-    st.sidebar.success("Backend: running")
+    st.sidebar.success("All-in-one mode: no separate backend needed")
 
 tab_process, tab_dashboard = st.tabs(["Process a message", "Dashboard"])
 
