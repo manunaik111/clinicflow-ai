@@ -34,9 +34,9 @@ HELDOUT_MESSAGES_PATH = BASE_DIR / "data" / "heldout_messages.json"
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # Small, fast model: used for quick structured tasks (classify, extract).
-GROQ_FAST_MODEL = os.getenv("GROQ_FAST_MODEL", "llama-3.1-8b-instant")
+GROQ_FAST_MODEL = os.getenv("GROQ_FAST_MODEL", "openai/gpt-oss-20b")
 # Larger model: used for careful writing and judgment (answers, replies, escalation).
-GROQ_SMART_MODEL = os.getenv("GROQ_SMART_MODEL", "llama-3.3-70b-versatile")
+GROQ_SMART_MODEL = os.getenv("GROQ_SMART_MODEL", "openai/gpt-oss-120b")
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 
