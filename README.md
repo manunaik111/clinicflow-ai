@@ -7,7 +7,7 @@ Clinics receive a constant stream of messages: booking requests, cancellations, 
 > **Demo project. All data is synthetic.** The clinic ("Greenfield Family Clinic") and every patient message are fictional. This project does not give medical advice and must not be used with real patient data.
 
 - **Demo video:** (add link)
-- **Live demo:** (add link, if deployed)
+- **Live demo:** https://clinicflow-ai-bpnjcqjwagghom2ygnr9rw.streamlit.app/
 - **Prompt documentation:** [docs/prompt_documentation.md](docs/prompt_documentation.md)
 
 ---
@@ -39,8 +39,8 @@ flowchart TD
 
 | Task | Model | Why |
 |---|---|---|
-| Classify, extract | Small, fast Groq model (`llama-3.1-8b-instant` by default) | Quick structured tasks with a clear right answer |
-| FAQ answer, reply drafting, escalation | Larger Groq model (`llama-3.3-70b-versatile` by default) | Writing to patients needs better judgment |
+| Classify, extract | Small, fast Groq model  | Quick structured tasks with a clear right answer |
+| FAQ answer, reply drafting, escalation | Larger Groq model  | Writing to patients needs better judgment |
 | Embeddings (RAG) | Local model that ships with Chroma | No extra API key needed |
 
 Model names are set in `.env`, so they can be changed without touching code.
@@ -79,7 +79,7 @@ clinicflow-ai/
 **Requirements:** Python 3.10 or newer and a free [Groq API key](https://console.groq.com).
 
 ```
-git clone <your-repo-url>
+git clone https://github.com/manunaik111/clinicflow-ai.git
 cd clinicflow-ai
 
 python -m venv venv
